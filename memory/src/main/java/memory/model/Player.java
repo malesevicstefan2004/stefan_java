@@ -3,7 +3,7 @@ package memory.model;
 import lombok.Getter;
 
 /**
- * Repräsentiert einen Spieler mit Name und aktuellem Punktestand.
+ * Represents a player with a name and current score.
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -11,23 +11,23 @@ import lombok.Getter;
 @Getter
 public class Player {
 
-   /** Anzeigename des Spielers. */
+   /** Display name of the player. */
    private final String name;
 
-   /** Anzahl der gefundenen Paare in der laufenden Partie. */
+   /** Number of pairs found in the current game session. */
    private int score;
 
    /**
-    * Erzeugt einen neuen Spieler mit Punktestand 0.
+    * Creates a new player with a score of 0.
     *
-    * @param name Anzeigename des Spielers
+    * @param name display name of the player
     */
    public Player(String name) {
       this.name = name;
       this.score = 0;
    }
 
-   /** Erhöht den Punktestand um ein gefundenes Paar. */
+   /** Increases the score by one found pair. */
    public void addScore() {
       score++;
    }

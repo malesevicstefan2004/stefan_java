@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Controller der Spielansicht ({@code GameView.fxml}), implementiert {@link GameModelListener}.
+ * Controller for the game view ({@code GameView.fxml}), implements {@link GameModelListener}.
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -42,19 +42,19 @@ public class GameController implements GameModelListener {
    @FXML private Label    movesLabel;
    @FXML private HBox     statusBar;
 
-   /** Das beobachtete Spielmodell. */
+   /** The observed game model. */
    private GameModel model;
 
-   /** Schaltflächen-Array parallel zum {@code model.getBoard()}. */
+   /** Button array mirroring the positions in {@code model.getBoard()}. */
    private Button[][] cardButtons;
 
-   /** Wartezeit in Millisekunden, bevor nicht passende Karten zurückgekehrt werden. */
+   /** Delay in milliseconds before mismatched cards are flipped back. */
    private static final int FLIP_BACK_DELAY_MS = 1500;
 
    /**
-    * Initialisiert die Spielansicht mit der gegebenen Konfiguration.
+    * Initialises the game view with the given configuration.
     *
-    * @param config die im Startmenü gewählte Konfiguration
+    * @param config the configuration chosen in the start menu
     */
    public void initGame(GameConfig config) {
       model = new GameModel(config);
@@ -67,7 +67,7 @@ public class GameController implements GameModelListener {
       }
    }
 
-   /** Erstellt für jede Kartenpositon eine Schaltfläche und fügt sie dem GridPane hinzu. */
+   /** Creates a button for every card position and adds it to the GridPane. */
    private void buildBoard() {
       boardGrid.getChildren().clear();
       int rows = model.getConfig().getRows();
@@ -91,11 +91,11 @@ public class GameController implements GameModelListener {
    }
 
    /**
-    * Berechnet eine passende Kartengröße je nach Spielfeldgröße.
+    * Returns an appropriate card size in pixels based on the board dimensions.
     *
-    * @param rows Anzahl der Zeilen
-    * @param cols Anzahl der Spalten
-    * @return Kartengröße in Pixel
+    * @param rows number of rows
+    * @param cols number of columns
+    * @return card size in pixels
     */
    private int computeCardSize(int rows, int cols) {
       if (rows == 6 || cols == 6) return 75;
@@ -104,12 +104,12 @@ public class GameController implements GameModelListener {
    }
 
    /**
-    * Erstellt eine Kartenschaltfläche und verknüpft sie mit {@link GameModel#flipCard}.
+    * Creates a card button and wires it to {@link GameModel#flipCard}.
     *
-    * @param row      Zeile der Karte
-    * @param col      Spalte der Karte
-    * @param cardSize Größe der Schaltfläche in Pixel
-    * @return die konfigurierte Schaltfläche
+    * @param row      row index of the card
+    * @param col      column index of the card
+    * @param cardSize button size in pixels
+    * @return the configured button
     */
    private Button createCardButton(int row, int col, int cardSize) {
       Button btn = new Button("?");
@@ -121,7 +121,7 @@ public class GameController implements GameModelListener {
       return btn;
    }
 
-   /** Aktualisiert alle Kartenschaltflächen entsprechend dem aktuellen Modellzustand. */
+   /** Refreshes all card buttons to reflect the current model state. */
    private void refreshBoard() {
       int rows = model.getConfig().getRows();
       int cols = model.getConfig().getCols();
@@ -133,10 +133,10 @@ public class GameController implements GameModelListener {
    }
 
    /**
-    * Aktualisiert Stil und Text der Kartenschaltfläche an der gegebenen Position.
+    * Updates the style and text of the card button at the given position.
     *
-    * @param row Zeile der Karte
-    * @param col Spalte der Karte
+    * @param row row index of the card
+    * @param col column index of the card
     */
    private void updateCardButton(int row, int col) {
       Card card = model.getBoard()[row][col];
@@ -162,21 +162,21 @@ public class GameController implements GameModelListener {
       }
    }
 
-   /** Aktualisiert die Statusleiste mit aktivem Spieler, Punkteständen und Zugzahl. */
+   /** Updates the status bar with the active player, scores, and move count. */
    private void updateStatus() {
       List<Player> players = model.getPlayers();
       Player active = players.get(model.getCurrentPlayerIndex());
-      activePlayerLabel.setText("Am Zug: " + active.getName());
+      activePlayerLabel.setText("Turn: " + active.getName());
 
       Player p1 = players.get(0);
-      player1ScoreLabel.setText(p1.getName() + ":  " + p1.getScore() + " Pkt.");
+      player1ScoreLabel.setText(p1.getName() + ":  " + p1.getScore() + " pts.");
 
       if (players.size() > 1) {
          Player p2 = players.get(1);
-         player2ScoreLabel.setText(p2.getName() + ":  " + p2.getScore() + " Pkt.");
+         player2ScoreLabel.setText(p2.getName() + ":  " + p2.getScore() + " pts.");
       }
 
-      movesLabel.setText("Züge: " + model.getTotalMoves());
+      movesLabel.setText("Moves: " + model.getTotalMoves());
    }
 
    @Override
@@ -213,27 +213,27 @@ public class GameController implements GameModelListener {
       showGameOverDialog();
    }
 
-   /** Zeigt einen Informationsdialog mit dem Spielergebnis. */
+   /** Shows an information dialog with the final game result. */
    private void showGameOverDialog() {
       String message = buildResultMessage();
       Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
-      alert.setTitle("Spiel beendet");
-      alert.setHeaderText("Alle Paare gefunden!");
+      alert.setTitle("Game Over");
+      alert.setHeaderText("All pairs found!");
       alert.getDialogPane().getStylesheets()
            .add(getClass().getResource("/memory/style.css").toExternalForm());
       alert.showAndWait();
    }
 
-   /** Erstellt die Ergebnismeldung für den Abschlussdialog. */
+   /** Builds the result message shown in the game-over dialog. */
    private String buildResultMessage() {
       List<Player> players = model.getPlayers();
       int moves = model.getTotalMoves();
 
       if (players.size() == 1) {
          Player p = players.get(0);
-         return "Glückwunsch, " + p.getName() + "!\n"
-               + "Du hast alle " + model.getTotalPairs()
-               + " Paare in " + moves + " Zügen gefunden!";
+         return "Congratulations, " + p.getName() + "!\n"
+               + "You found all " + model.getTotalPairs()
+               + " pairs in " + moves + " moves!";
       }
 
       Player p1 = players.get(0);
@@ -241,19 +241,19 @@ public class GameController implements GameModelListener {
       String score = p1.getScore() + " : " + p2.getScore();
 
       if (p1.getScore() > p2.getScore()) {
-         return "Gewinner: " + p1.getName() + "\n" + score + "\nZüge: " + moves;
+         return "Winner: " + p1.getName() + "\n" + score + "\nMoves: " + moves;
       } else if (p2.getScore() > p1.getScore()) {
-         return "Gewinner: " + p2.getName() + "\n" + score + "\nZüge: " + moves;
+         return "Winner: " + p2.getName() + "\n" + score + "\nMoves: " + moves;
       } else {
-         return "Unentschieden!\n" + score + "\nZüge: " + moves;
+         return "Draw!\n" + score + "\nMoves: " + moves;
       }
    }
 
    /**
-    * Kehrt ins Startmenü zurück.
+    * Returns to the start menu.
     *
-    * @param event das ActionEvent des Buttons „Neues Spiel"
-    * @throws IOException falls {@code MenuView.fxml} nicht geladen werden kann
+    * @param event the ActionEvent from the "New Game" button
+    * @throws IOException if {@code MenuView.fxml} cannot be loaded
     */
    @FXML
    public void newGame(ActionEvent event) throws IOException {

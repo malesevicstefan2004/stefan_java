@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Konfigurationsparameter für eine neue Memory-Partie (Spieleranzahl, Feldgröße, Motiv).
+ * Configuration parameters for a new Memory game session (player count, board size, theme).
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -13,31 +13,31 @@ import lombok.Setter;
 @Setter
 public class GameConfig {
 
-   /** Spieleranzahl (1 oder 2). */
+   /** Number of players (1 or 2). */
    private int playerCount;
 
-   /** Anzahl der Zeilen auf dem Spielfeld. */
+   /** Number of rows on the board. */
    private int rows;
 
-   /** Anzahl der Spalten auf dem Spielfeld. */
+   /** Number of columns on the board. */
    private int cols;
 
-   /** Das gewählte Kartenmotiv. */
+   /** The selected card theme. */
    private Theme theme;
 
-   /** Anzeigename von Spieler 1. */
+   /** Display name of Player 1. */
    private String player1Name;
 
-   /** Anzeigename von Spieler 2. */
+   /** Display name of Player 2. */
    private String player2Name;
 
-   /** Erstellt eine Konfiguration mit Standardwerten: 1 Spieler, 4×4, Motiv TIERE. */
+   /** Creates a configuration with default values: 1 player, 4×4 board, theme TIERE. */
    public GameConfig() {
       this.playerCount = 1;
       this.rows = 4;
       this.cols = 4;
       this.theme = Theme.TIERE;
-      this.player1Name = "Spieler 1";
-      this.player2Name = "Spieler 2";
+      this.player1Name = "Player 1";
+      this.player2Name = "Player 2";
    }
 }

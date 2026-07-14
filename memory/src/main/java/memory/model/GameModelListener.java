@@ -1,40 +1,40 @@
 package memory.model;
 
 /**
- * Observer-Schnittstelle für Spielzustandsänderungen des {@link GameModel}.
+ * Observer interface for game-state changes in {@link GameModel}.
  *
  * @author Stefan Malesevic
  * @version 1.0
  */
 public interface GameModelListener {
 
-   /** Wird aufgerufen, nachdem eine Karte aufgedeckt wurde. */
+   /** Called after a card has been flipped. */
    void onCardFlipped();
 
    /**
-    * Wird aufgerufen, wenn zwei aufgedeckte Karten ein Paar bilden.
+    * Called when two revealed cards form a matching pair.
     *
-    * @param row1 Zeile der ersten Karte
-    * @param col1 Spalte der ersten Karte
-    * @param row2 Zeile der zweiten Karte
-    * @param col2 Spalte der zweiten Karte
+    * @param row1 row of the first card
+    * @param col1 column of the first card
+    * @param row2 row of the second card
+    * @param col2 column of the second card
     */
    void onPairMatched(int row1, int col1, int row2, int col2);
 
    /**
-    * Wird aufgerufen, wenn zwei aufgedeckte Karten kein Paar bilden.
-    * Der Listener muss danach {@link GameModel#hideCards()} aufrufen.
+    * Called when two revealed cards do not match.
+    * The listener must subsequently call {@link GameModel#hideCards()}.
     *
-    * @param row1 Zeile der ersten Karte
-    * @param col1 Spalte der ersten Karte
-    * @param row2 Zeile der zweiten Karte
-    * @param col2 Spalte der zweiten Karte
+    * @param row1 row of the first card
+    * @param col1 column of the first card
+    * @param row2 row of the second card
+    * @param col2 column of the second card
     */
    void onPairMismatched(int row1, int col1, int row2, int col2);
 
-   /** Wird aufgerufen, nachdem nicht passende Karten wieder verdeckt wurden. */
+   /** Called after mismatched cards have been flipped back. */
    void onCardsHidden();
 
-   /** Wird aufgerufen, sobald alle Paare gefunden wurden. */
+   /** Called when all pairs have been found. */
    void onGameOver();
 }

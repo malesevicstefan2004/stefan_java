@@ -3,7 +3,7 @@ package memory;
 import javafx.application.Application;
 
 /**
- * Einstiegspunkt der Memory-Applikation.
+ * Entry point of the Memory application.
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -11,9 +11,9 @@ import javafx.application.Application;
 public class MainClass {
 
    /**
-    * Startet die JavaFX-Applikation.
+    * Launches the JavaFX application.
     *
-    * @param args Kommandozeilenargumente (werden nicht verwendet)
+    * @param args command-line arguments (not used)
     */
    public static void main(String[] args) {
       Application.launch(MemoryApp.class, args);

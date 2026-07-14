@@ -7,24 +7,24 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * JavaFX-Applikation für das Memory-Spiel.
+ * JavaFX application class for the Memory game.
  *
  * @author Stefan Malesevic
  * @version 1.0
  */
 public class MemoryApp extends Application {
 
-   /** Breite des Startmenü-Fensters in Pixel. */
+   /** Width of the start-menu window in pixels. */
    private static final int MENU_WIDTH = 520;
 
-   /** Höhe des Startmenü-Fensters in Pixel. */
+   /** Height of the start-menu window in pixels. */
    private static final int MENU_HEIGHT = 420;
 
    /**
-    * Startet die Applikation und lädt das Startmenü.
+    * Starts the application and loads the start menu.
     *
-    * @param primaryStage die primäre Stage der JavaFX-Laufzeit
-    * @throws Exception falls die FXML-Datei nicht geladen werden kann
+    * @param primaryStage the primary stage provided by the JavaFX runtime
+    * @throws Exception if the FXML file cannot be loaded
     */
    @Override
    public void start(Stage primaryStage) throws Exception {

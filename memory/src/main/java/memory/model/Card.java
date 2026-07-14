@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Eine Spielkarte mit eindeutiger ID, Paar-ID, Symbol und aktuellem Zustand.
+ * A playing card with a unique ID, pair ID, symbol, and current state.
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -12,25 +12,25 @@ import lombok.Setter;
 @Getter
 public class Card {
 
-   /** Eindeutige Karten-ID. */
+   /** Unique card ID. */
    private final int id;
 
-   /** Paar-ID – zwei Karten mit gleicher Paar-ID bilden ein Paar. */
+   /** Pair ID – two cards with the same pair ID form a matching pair. */
    private final int pairId;
 
-   /** Das auf der Karte angezeigte Unicode-Symbol. */
+   /** The Unicode symbol displayed on the card face. */
    private final String symbol;
 
-   /** Aktueller Anzeigestatus der Karte. */
+   /** Current display state of the card. */
    @Setter
    private CardState state;
 
    /**
-    * Erzeugt eine neue Karte; Anfangsstatus ist {@link CardState#FACE_DOWN}.
+    * Creates a new card; initial state is {@link CardState#FACE_DOWN}.
     *
-    * @param id     eindeutige Karten-ID
-    * @param pairId Paar-ID (geteilt mit der passenden Karte)
-    * @param symbol das Symbol auf der Kartenrückseite
+    * @param id     unique card ID
+    * @param pairId pair ID shared with the matching card
+    * @param symbol the symbol shown on the card face
     */
    public Card(int id, int pairId, String symbol) {
       this.id = id;

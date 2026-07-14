@@ -1,19 +1,19 @@
 package memory.model;
 
 /**
- * Mögliche Anzeigestati einer Spielkarte.
+ * Possible display states of a playing card.
  *
  * @author Stefan Malesevic
  * @version 1.0
  */
 public enum CardState {
 
-   /** Karte ist verdeckt. */
+   /** Card is face-down (hidden). */
    FACE_DOWN,
 
-   /** Karte ist aufgedeckt. */
+   /** Card is face-up (revealed). */
    FACE_UP,
 
-   /** Karte ist dauerhaft sichtbar (Paar gefunden). */
+   /** Card is permanently visible (pair has been found). */
    MATCHED
 }

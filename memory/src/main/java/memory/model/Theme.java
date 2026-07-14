@@ -1,64 +1,64 @@
 package memory.model;
 
 /**
- * Verfügbare Kartenmotive für das Memory-Spiel.
- * Jedes Motiv enthält mindestens 18 einzigartige Symbole (für 6×6 = 18 Paare).
+ * Available card themes for the Memory game.
+ * Each theme contains at least 18 unique symbols (for a 6×6 board = 18 pairs).
  *
  * @author Stefan Malesevic
  * @version 1.0
  */
 public enum Theme {
 
-   /** Natur- und Himmels-Symbole. */
-   TIERE("Natur ☀", new String[]{
-         "☀", "☁", "☂", "☃",
-         "☄", "★", "☆", "☽",
-         "⚡", "❄", "✿", "☮",
-         "✈", "☸", "⚓", "✦",
-         "✧", "☾"
+   /** Geometric shapes from Unicode block U+25A0–U+25FF. */
+   TIERE("Geometry ■", new String[]{
+         "■", "□", "▲", "▼",
+         "◆", "◇", "●", "○",
+         "◐", "◑", "▶", "◀",
+         "★", "☆", "◉", "◎",
+         "▪", "▫"
    }),
 
-   /** Tierkreiszeichen und Schachfiguren. */
-   FRUECHTE("Zodiak ♈", new String[]{
-         "♈", "♉", "♊", "♋",
-         "♌", "♍", "♎", "♏",
-         "♐", "♑", "♒", "♓",
+   /** Chess pieces, playing card suits, and musical notes. */
+   FRUECHTE("Chess ♔", new String[]{
          "♔", "♕", "♖", "♗",
-         "♘", "♙"
+         "♘", "♙", "♚", "♛",
+         "♜", "♝", "♞", "♟",
+         "♠", "♥", "♦", "♣",
+         "♩", "♪"
    }),
 
-   /** Klassische Karten- und Spielsymbole. */
-   KARTEN("Karten ♠", new String[]{
-         "♠", "♥", "♦", "♣",
-         "★", "✶", "☀", "☽",
-         "⚡", "❄", "✿", "☮",
-         "♞", "♟", "⚜", "⚓",
-         "⚽", "♪"
+   /** Arrows and mathematical operators. */
+   KARTEN("Arrows ←", new String[]{
+         "←", "→", "↑", "↓",
+         "↔", "↕", "↖", "↗",
+         "↘", "↙", "∞", "≠",
+         "±", "×", "÷", "∑",
+         "√", "≤"
    });
 
-   /** Der im Menü angezeigte Name des Motivs. */
+   /** The display name shown in the menu. */
    private final String displayName;
 
-   /** Die Symbole dieses Motivs. */
+   /** The symbols belonging to this theme. */
    private final String[] symbols;
 
    /**
-    * Erstellt ein Motiv mit Anzeigename und Symbolarray.
+    * Creates a theme with the given display name and symbol array.
     *
-    * @param displayName der im Startmenü angezeigte Name
-    * @param symbols     die Symbole dieses Motivs
+    * @param displayName the name shown in the start menu
+    * @param symbols     the symbols of this theme
     */
    Theme(String displayName, String[] symbols) {
       this.displayName = displayName;
       this.symbols = symbols;
    }
 
-   /** Gibt den Anzeigenamen des Motivs zurück. */
+   /** Returns the display name of this theme. */
    public String getDisplayName() {
       return displayName;
    }
 
-   /** Gibt das Symbolarray dieses Motivs zurück. */
+   /** Returns the symbol array of this theme. */
    public String[] getSymbols() {
       return symbols;
    }

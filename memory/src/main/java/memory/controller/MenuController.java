@@ -16,7 +16,7 @@ import memory.model.Theme;
 import java.io.IOException;
 
 /**
- * Controller des Startmenüs ({@code MenuView.fxml}).
+ * Controller for the start menu ({@code MenuView.fxml}).
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -30,10 +30,10 @@ public class MenuController {
    @FXML private TextField        player2NameField;
    @FXML private Label            player2NameLabel;
 
-   /** Befüllt alle Auswahlfelder und richtet den Spielerzahl-Listener ein. */
+   /** Populates all combo boxes and sets up the player-count listener. */
    @FXML
    public void initialize() {
-      playerCountCombo.getItems().addAll("1 Spieler", "2 Spieler");
+      playerCountCombo.getItems().addAll("1 Player", "2 Players");
       playerCountCombo.getSelectionModel().selectFirst();
 
       boardSizeCombo.getItems().addAll("4 × 4", "4 × 6", "6 × 6");
@@ -46,7 +46,7 @@ public class MenuController {
       updatePlayer2Visibility();
    }
 
-   /** Zeigt oder versteckt die Eingabezeile für Spieler 2 je nach Spieleranzahl. */
+   /** Shows or hides the Player 2 name row depending on the selected player count. */
    private void updatePlayer2Visibility() {
       boolean twoPlayers = playerCountCombo.getSelectionModel().getSelectedIndex() == 1;
       player2NameLabel.setVisible(twoPlayers);
@@ -56,10 +56,10 @@ public class MenuController {
    }
 
    /**
-    * Liest die Einstellungen aus, erstellt eine {@link GameConfig} und öffnet die Spielansicht.
+    * Reads the current settings, builds a {@link GameConfig}, and opens the game view.
     *
-    * @param event das ActionEvent des Buttons „Spiel starten"
-    * @throws IOException falls {@code GameView.fxml} nicht geladen werden kann
+    * @param event the ActionEvent from the "Start Game" button
+    * @throws IOException if {@code GameView.fxml} cannot be loaded
     */
    @FXML
    public void startGame(ActionEvent event) throws IOException {
@@ -80,7 +80,7 @@ public class MenuController {
       stage.centerOnScreen();
    }
 
-   /** Erstellt eine {@link GameConfig} anhand der aktuellen UI-Auswahl. */
+   /** Builds a {@link GameConfig} from the current UI selection. */
    private GameConfig buildConfig() {
       GameConfig config = new GameConfig();
 
@@ -94,10 +94,10 @@ public class MenuController {
       config.setTheme(themeCombo.getSelectionModel().getSelectedItem());
 
       String p1 = player1NameField.getText().trim();
-      config.setPlayer1Name(p1.isEmpty() ? "Spieler 1" : p1);
+      config.setPlayer1Name(p1.isEmpty() ? "Player 1" : p1);
 
       String p2 = player2NameField.getText().trim();
-      config.setPlayer2Name(p2.isEmpty() ? "Spieler 2" : p2);
+      config.setPlayer2Name(p2.isEmpty() ? "Player 2" : p2);
 
       return config;
    }

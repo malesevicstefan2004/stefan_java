@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Kernmodell des Memory-Spiels – verwaltet Spielfeld, Spieler und Spielregeln.
+ * Core model of the Memory game – manages the board, players, and game rules.
  *
  * @author Stefan Malesevic
  * @version 1.0
@@ -15,56 +15,56 @@ import java.util.List;
 @Getter
 public class GameModel {
 
-   /** Zweidimensionales Kartenfeld des Spielbretts. */
+   /** Two-dimensional card array representing the game board. */
    private Card[][] board;
 
-   /** Liste der Spieler (1 oder 2). */
+   /** List of players (1 or 2). */
    private List<Player> players;
 
-   /** Index des Spielers, der gerade am Zug ist. */
+   /** Index of the player whose turn it currently is. */
    private int currentPlayerIndex;
 
-   /** Gesamtanzahl der bisher gespielten Züge. */
+   /** Total number of moves played so far. */
    private int totalMoves;
 
-   /** Anzahl der bisher gefundenen Paare. */
+   /** Number of pairs found so far. */
    private int matchedPairs;
 
-   /** Gibt an, ob der Spieler eine Karte aufdecken darf. */
+   /** Whether the active player is allowed to flip a card. */
    private boolean canFlip;
 
-   /** Die Konfiguration dieser Partie. */
+   /** Configuration for this game session. */
    private final GameConfig config;
 
-   /** Registrierte Observer für Spielereignisse. */
+   /** Registered observers for game events. */
    private final List<GameModelListener> listeners = new ArrayList<>();
 
-   /** Anzahl der im aktuellen Zug bereits aufgedeckten Karten (0 oder 1). */
+   /** Number of cards already flipped in the current turn (0 or 1). */
    private int flippedCount;
 
-   /** Zeile der zuerst aufgedeckten Karte im aktuellen Zug. */
+   /** Row of the first card flipped in the current turn. */
    private int firstRow;
 
-   /** Spalte der zuerst aufgedeckten Karte im aktuellen Zug. */
+   /** Column of the first card flipped in the current turn. */
    private int firstCol;
 
-   /** Zeile der zweiten aufgedeckten Karte im aktuellen Zug. */
+   /** Row of the second card flipped in the current turn. */
    private int secondRow;
 
-   /** Spalte der zweiten aufgedeckten Karte im aktuellen Zug. */
+   /** Column of the second card flipped in the current turn. */
    private int secondCol;
 
    /**
-    * Erzeugt und initialisiert ein neues Spiel anhand der gegebenen Konfiguration.
+    * Creates and initialises a new game from the given configuration.
     *
-    * @param config die im Startmenü gewählte Konfiguration
+    * @param config the configuration chosen in the start menu
     */
    public GameModel(GameConfig config) {
       this.config = config;
       initGame();
    }
 
-   /** Initialisiert alle Spielzustandsvariablen und verteilt die Karten zufällig. */
+   /** Initialises all game-state variables and randomly distributes the cards. */
    private void initGame() {
       players = new ArrayList<>();
       players.add(new Player(config.getPlayer1Name()));
@@ -101,20 +101,20 @@ public class GameModel {
    }
 
    /**
-    * Registriert einen Listener, der über Spielereignisse informiert wird.
+    * Registers a listener to be notified of game events.
     *
-    * @param listener der hinzuzufügende Observer
+    * @param listener the observer to add
     */
    public void addListener(GameModelListener listener) {
       listeners.add(listener);
    }
 
    /**
-    * Deckt die Karte an der angegebenen Position auf.
-    * Wird ignoriert, wenn die Eingabe gesperrt ist oder die Karte nicht verdeckt ist.
+    * Flips the card at the given position.
+    * Ignored if input is locked or the card is not face-down.
     *
-    * @param row Zeile der aufzudeckenden Karte (0-basiert)
-    * @param col Spalte der aufzudeckenden Karte (0-basiert)
+    * @param row row index of the card to flip (0-based)
+    * @param col column index of the card to flip (0-based)
     */
    public void flipCard(int row, int col) {
       if (!canFlip) return;
@@ -139,7 +139,7 @@ public class GameModel {
       }
    }
 
-   /** Prüft, ob die beiden aufgedeckten Karten ein Paar bilden, und benachrichtigt die Listener. */
+   /** Checks whether the two flipped cards form a pair and notifies listeners. */
    private void evaluatePair() {
       Card first = board[firstRow][firstCol];
       Card second = board[secondRow][secondCol];
@@ -161,7 +161,7 @@ public class GameModel {
       }
    }
 
-   /** Verdeckt die beiden zuletzt nicht passenden Karten und wechselt den aktiven Spieler. */
+   /** Hides the two last mismatched cards and switches the active player. */
    public void hideCards() {
       board[firstRow][firstCol].setState(CardState.FACE_DOWN);
       board[secondRow][secondCol].setState(CardState.FACE_DOWN);
@@ -170,7 +170,7 @@ public class GameModel {
       listeners.forEach(GameModelListener::onCardsHidden);
    }
 
-   /** Gibt die Gesamtanzahl der Paare auf dem Spielfeld zurück. */
+   /** Returns the total number of pairs on the board. */
    public int getTotalPairs() {
       return (config.getRows() * config.getCols()) / 2;
    }
