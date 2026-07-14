@@ -1,0 +1,246 @@
+@startuml Memory_Klassendiagramm
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 6
+skinparam ArrowThickness 1.5
+skinparam ArrowColor #2C3E50
+skinparam classFontSize 12
+skinparam classAttributeFontSize 11
+skinparam classFontStyle bold
+skinparam classAttributeFontColor #2C3E50
+skinparam classBorderColor #2C3E50
+skinparam classBorderThickness 1.5
+
+skinparam class {
+    BackgroundColor #EAF4FB
+    BorderColor #2980B9
+    FontColor #1A252F
+    AttributeFontColor #34495E
+    StereotypeFontColor #2980B9
+}
+
+skinparam interface {
+    BackgroundColor #FEF9E7
+    BorderColor #F39C12
+    FontColor #784212
+}
+
+skinparam enum {
+    BackgroundColor #EAFAF1
+    BorderColor #27AE60
+    FontColor #145A32
+}
+
+skinparam package {
+    BackgroundColor #FDFEFE
+    BorderColor #7F8C8D
+    FontColor #2C3E50
+    FontStyle bold
+    FontSize 13
+}
+
+skinparam note {
+    BackgroundColor #FFEAA7
+    BorderColor #FDCB6E
+    FontColor #2D3436
+}
+
+title <size:20><b>Memory – MVC-Klassendiagramm</b></size>\n<i>Autor: Stefan Malesevic  |  Version 1.0  |  Java 21 · JavaFX 23 · Maven</i>\n
+
+' ════════════════════════════════════════════════════════
+' PAKET: memory.model
+' ════════════════════════════════════════════════════════
+package "memory.model" {
+
+    enum CardState <<enumeration>> {
+        FACE_DOWN
+        FACE_UP
+        MATCHED
+    }
+
+    enum Theme <<enumeration>> {
+        TIERE
+        FRUECHTE
+        KARTEN
+        --
+        - displayName : String
+        - symbols : String[]
+        --
+        + getDisplayName() : String
+        + getSymbols() : String[]
+        + toString() : String
+    }
+
+    class Card {
+        - id : int
+        - pairId : int
+        - symbol : String
+        - state : CardState
+        --
+        + Card(id : int, pairId : int, symbol : String)
+        + getId() : int
+        + getPairId() : int
+        + getSymbol() : String
+        + getState() : CardState
+        + setState(state : CardState) : void
+    }
+
+    class Player {
+        - name : String
+        - score : int
+        --
+        + Player(name : String)
+        + getName() : String
+        + getScore() : int
+        + addScore() : void
+    }
+
+    class GameConfig {
+        - playerCount : int
+        - rows : int
+        - cols : int
+        - theme : Theme
+        - player1Name : String
+        - player2Name : String
+        --
+        + GameConfig()
+        + getPlayerCount() : int
+        + getRows() : int
+        + getCols() : int
+        + getTheme() : Theme
+        + getPlayer1Name() : String
+        + getPlayer2Name() : String
+        + set*(...) : void
+    }
+
+    interface GameModelListener <<interface>> {
+        + onCardFlipped() : void
+        + onPairMatched(row1:int, col1:int,\n  row2:int, col2:int) : void
+        + onPairMismatched(row1:int, col1:int,\n  row2:int, col2:int) : void
+        + onCardsHidden() : void
+        + onGameOver() : void
+    }
+
+    class GameModel {
+        - board : Card[][]
+        - players : List<Player>
+        - currentPlayerIndex : int
+        - totalMoves : int
+        - matchedPairs : int
+        - canFlip : boolean
+        - flippedCount : int
+        - firstRow : int
+        - firstCol : int
+        - secondRow : int
+        - secondCol : int
+        - config : GameConfig
+        - listeners : List<GameModelListener>
+        --
+        + GameModel(config : GameConfig)
+        + addListener(l : GameModelListener) : void
+        + flipCard(row : int, col : int) : void
+        + hideCards() : void
+        + getTotalPairs() : int
+        + getBoard() : Card[][]
+        + getPlayers() : List<Player>
+        + getCurrentPlayerIndex() : int
+        + getTotalMoves() : int
+        + isCanFlip() : boolean
+        - evaluatePair() : void
+        - initGame() : void
+    }
+
+    ' Beziehungen im Model
+    Card         -->  CardState        : - state
+    GameConfig   -->  Theme            : - theme
+    GameModel   "1" --> "rows×cols"  Card         : - board[][]
+    GameModel   "1" --> "1..2"       Player       : - players
+    GameModel    -->  GameConfig      : - config
+    GameModel    -->  GameModelListener : notifies >
+
+}
+
+' ════════════════════════════════════════════════════════
+' PAKET: memory.controller
+' ════════════════════════════════════════════════════════
+package "memory.controller" {
+
+    class MenuController {
+        - playerCountCombo : ComboBox<String>
+        - boardSizeCombo : ComboBox<String>
+        - themeCombo : ComboBox<Theme>
+        - player1NameField : TextField
+        - player2NameField : TextField
+        - player2NameLabel : Label
+        --
+        + initialize() : void
+        + startGame(event : ActionEvent) : void
+        - buildConfig() : GameConfig
+        - updatePlayer2Visibility() : void
+    }
+
+    class GameController {
+        - boardGrid : GridPane
+        - model : GameModel
+        - cardButtons : Button[][]
+        - activePlayerLabel : Label
+        - player1ScoreLabel : Label
+        - player2ScoreLabel : Label
+        - movesLabel : Label
+        --
+        + initGame(config : GameConfig) : void
+        + onCardFlipped() : void
+        + onPairMatched(r1,c1,r2,c2 : int) : void
+        + onPairMismatched(r1,c1,r2,c2 : int) : void
+        + onCardsHidden() : void
+        + onGameOver() : void
+        + newGame(event : ActionEvent) : void
+        - buildBoard() : void
+        - computeCardSize(rows,cols : int) : int
+        - refreshBoard() : void
+        - updateCardButton(row,col : int) : void
+        - updateStatus() : void
+        - showGameOverDialog() : void
+        - buildResultMessage() : String
+    }
+
+    ' Beziehungen im Controller
+    GameController    ..|>   GameModelListener  : <<implements>>
+    GameController    -->    GameModel          : - model
+    MenuController    ..>    GameController     : creates & configures >
+    MenuController    ..>    GameConfig         : <<creates>>
+
+}
+
+' ════════════════════════════════════════════════════════
+' PAKET: memory (Einstiegspunkt)
+' ════════════════════════════════════════════════════════
+package "memory" {
+
+    class Main {
+        - MENU_WIDTH : int  = 520
+        - MENU_HEIGHT : int = 420
+        --
+        + start(stage : Stage) : void
+        + main(args : String[]) : void
+    }
+
+    Main ..>  MenuController : loads via FXML >
+
+}
+
+' Querverweis Controller → Model (packageübergreifend)
+note bottom of GameController
+  Verwendet PauseTransition (JavaFX)\n
+  für nicht-blockierende Wartezeit\n
+  (FANF09 – GUI reaktionsfähig)
+end note
+
+note right of GameModel
+  Observer-Pattern:\n
+  Model kennt View NICHT.\n
+  Controller ist Listener.
+end note
+
+@enduml

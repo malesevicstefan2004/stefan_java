@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="memory.controller.MenuController"
+      alignment="CENTER"
+      spacing="24"
+      styleClass="menu-root">
+
+   <padding>
+      <Insets top="40" right="60" bottom="40" left="60"/>
+   </padding>
+
+   <!-- Title -->
+   <Label text="Memory" styleClass="menu-title"/>
+
+   <Separator/>
+
+   <!-- Configuration grid -->
+   <GridPane hgap="16" vgap="14" alignment="CENTER">
+      <columnConstraints>
+         <ColumnConstraints minWidth="150" prefWidth="160"/>
+         <ColumnConstraints minWidth="180" prefWidth="200"/>
+      </columnConstraints>
+
+      <!-- Row 0: Player count -->
+      <Label text="Spieleranzahl:" styleClass="menu-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+      <ComboBox fx:id="playerCountCombo" prefWidth="200"
+                GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+      <!-- Row 1: Board size -->
+      <Label text="Spielfeldgröße:" styleClass="menu-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+      <ComboBox fx:id="boardSizeCombo" prefWidth="200"
+                GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+      <!-- Row 2: Theme -->
+      <Label text="Motiv:" styleClass="menu-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+      <ComboBox fx:id="themeCombo" prefWidth="200"
+                GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+      <!-- Row 3: Player 1 name -->
+      <Label text="Name Spieler 1:" styleClass="menu-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+      <TextField fx:id="player1NameField" promptText="Spieler 1" prefWidth="200"
+                 GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+      <!-- Row 4: Player 2 name (hidden in single-player mode) -->
+      <Label fx:id="player2NameLabel" text="Name Spieler 2:" styleClass="menu-label"
+             GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+      <TextField fx:id="player2NameField" promptText="Spieler 2" prefWidth="200"
+                 GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+   </GridPane>
+
+   <Separator/>
+
+   <!-- Start button -->
+   <Button text="Spiel starten" onAction="#startGame" styleClass="menu-button"/>
+
+</VBox>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="memory.controller.GameController"
+            styleClass="game-root">
+
+   <!-- ═══ Status bar (top) ═══════════════════════════════════════════════ -->
+   <top>
+      <HBox fx:id="statusBar" styleClass="status-bar" alignment="CENTER_LEFT" spacing="0">
+         <padding>
+            <Insets top="10" right="16" bottom="10" left="16"/>
+         </padding>
+
+         <!-- Active player -->
+         <Label fx:id="activePlayerLabel" text="Am Zug: –" styleClass="status-label" prefWidth="200"/>
+
+         <Region HBox.hgrow="ALWAYS"/>
+
+         <!-- Player 1 score -->
+         <Label fx:id="player1ScoreLabel" text="" styleClass="score-label-p1"/>
+
+         <!-- Separator spacer -->
+         <Label text="   |   " styleClass="status-label"/>
+
+         <!-- Player 2 score -->
+         <Label fx:id="player2ScoreLabel" text="" styleClass="score-label-p2"/>
+
+         <Region HBox.hgrow="ALWAYS"/>
+
+         <!-- Total moves -->
+         <Label fx:id="movesLabel" text="Züge: 0" styleClass="status-label" prefWidth="80"/>
+      </HBox>
+   </top>
+
+   <!-- ═══ Card grid (center) ════════════════════════════════════════════ -->
+   <center>
+      <GridPane fx:id="boardGrid"
+                hgap="8" vgap="8"
+                alignment="CENTER"
+                styleClass="board-grid">
+         <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+         </padding>
+      </GridPane>
+   </center>
+
+   <!-- ═══ Bottom bar ════════════════════════════════════════════════════ -->
+   <bottom>
+      <HBox alignment="CENTER" styleClass="bottom-bar">
+         <padding>
+            <Insets top="10" right="0" bottom="14" left="0"/>
+         </padding>
+         <Button text="Neues Spiel" onAction="#newGame" styleClass="new-game-button"/>
+      </HBox>
+   </bottom>
+
+</BorderPane>

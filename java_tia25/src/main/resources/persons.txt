@@ -1,0 +1,4 @@
+Hans;42;X
+Peter;17;G
+Lisa;26;T
+Heidi;80;K

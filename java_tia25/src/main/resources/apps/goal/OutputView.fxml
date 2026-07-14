@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="apps.goal.OutputController">
+	<center>
+		<VBox BorderPane.alignment="CENTER">
+			<children>
+				<Label fx:id="teamA" text="TEAM A" />
+				<Label fx:id="teamB" text="TEAM B" />
+				<Label fx:id="victoryMessage" text="VICTORY MESSAGE"
+					textAlignment="CENTER">
+					<font>
+						<Font size="20.0" />
+					</font>
+				</Label>
+			</children>
+		</VBox>
+	</center>
+	<padding>
+		<Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+	</padding>
+</BorderPane>
