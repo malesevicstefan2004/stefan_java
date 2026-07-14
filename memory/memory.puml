@@ -1,4 +1,4 @@
-@startuml Memory_Klassendiagramm
+@startuml Memory_ClassDiagram
 
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
@@ -46,10 +46,10 @@ skinparam note {
     FontColor #2D3436
 }
 
-title <size:20><b>Memory – MVC-Klassendiagramm</b></size>\n<i>Autor: Stefan Malesevic  |  Version 1.0  |  Java 21 · JavaFX 23 · Maven</i>\n
+title <size:20><b>Memory – MVC Class Diagram</b></size>\n<i>Author: Stefan Malesevic  |  Version 1.0  |  Java 21 · JavaFX 23 · Maven</i>\n
 
 ' ════════════════════════════════════════════════════════
-' PAKET: memory.model
+' PACKAGE: memory.model
 ' ════════════════════════════════════════════════════════
 package "memory.model" {
 
@@ -146,12 +146,14 @@ package "memory.model" {
         + getPlayers() : List<Player>
         + getCurrentPlayerIndex() : int
         + getTotalMoves() : int
+        + getMatchedPairs() : int
+        + getConfig() : GameConfig
         + isCanFlip() : boolean
         - evaluatePair() : void
         - initGame() : void
     }
 
-    ' Beziehungen im Model
+    ' Relationships within the model
     Card         -->  CardState        : - state
     GameConfig   -->  Theme            : - theme
     GameModel   "1" --> "rows×cols"  Card         : - board[][]
@@ -162,7 +164,7 @@ package "memory.model" {
 }
 
 ' ════════════════════════════════════════════════════════
-' PAKET: memory.controller
+' PACKAGE: memory.controller
 ' ════════════════════════════════════════════════════════
 package "memory.controller" {
 
@@ -182,12 +184,13 @@ package "memory.controller" {
 
     class GameController {
         - boardGrid : GridPane
-        - model : GameModel
-        - cardButtons : Button[][]
+        - statusBar : HBox
         - activePlayerLabel : Label
         - player1ScoreLabel : Label
         - player2ScoreLabel : Label
         - movesLabel : Label
+        - model : GameModel
+        - cardButtons : Button[][]
         --
         + initGame(config : GameConfig) : void
         + onCardFlipped() : void
@@ -198,6 +201,7 @@ package "memory.controller" {
         + newGame(event : ActionEvent) : void
         - buildBoard() : void
         - computeCardSize(rows,cols : int) : int
+        - createCardButton(row,col,size : int) : Button
         - refreshBoard() : void
         - updateCardButton(row,col : int) : void
         - updateStatus() : void
@@ -205,7 +209,7 @@ package "memory.controller" {
         - buildResultMessage() : String
     }
 
-    ' Beziehungen im Controller
+    ' Relationships within the controller
     GameController    ..|>   GameModelListener  : <<implements>>
     GameController    -->    GameModel          : - model
     MenuController    ..>    GameController     : creates & configures >
@@ -214,33 +218,38 @@ package "memory.controller" {
 }
 
 ' ════════════════════════════════════════════════════════
-' PAKET: memory (Einstiegspunkt)
+' PACKAGE: memory (entry point)
 ' ════════════════════════════════════════════════════════
 package "memory" {
 
-    class Main {
-        - MENU_WIDTH : int  = 520
-        - MENU_HEIGHT : int = 420
+    class MainClass {
         --
-        + start(stage : Stage) : void
-        + main(args : String[]) : void
+        + {static} main(args : String[]) : void
     }
 
-    Main ..>  MenuController : loads via FXML >
+    class MemoryApp {
+        - {static} MENU_WIDTH : int = 520
+        - {static} MENU_HEIGHT : int = 420
+        --
+        + start(stage : Stage) : void
+    }
+
+    MainClass  ..>  MemoryApp      : launches >
+    MemoryApp  ..>  MenuController : loads via FXML >
 
 }
 
-' Querverweis Controller → Model (packageübergreifend)
+' Cross-package note
 note bottom of GameController
-  Verwendet PauseTransition (JavaFX)\n
-  für nicht-blockierende Wartezeit\n
-  (FANF09 – GUI reaktionsfähig)
+  Uses PauseTransition (JavaFX)\n
+  for non-blocking delay\n
+  (FANF09 – GUI stays responsive)
 end note
 
 note right of GameModel
-  Observer-Pattern:\n
-  Model kennt View NICHT.\n
-  Controller ist Listener.
+  Observer Pattern:\n
+  Model has no knowledge of View.\n
+  Controller acts as Listener.
 end note
 
 @enduml
