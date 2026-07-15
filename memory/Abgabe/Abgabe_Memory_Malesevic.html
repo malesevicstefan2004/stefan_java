@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory-Spiel – Projektdokumentation – Stefan Malesevic</title>
+  <style>
+    @page { margin: 2.5cm 2.5cm 2.5cm 2.5cm; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 11pt;
+      color: #1a1a1a;
+      line-height: 1.65;
+      background: #fff;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 60px;
+    }
+
+    /* ── Deckblatt ─────────────────────────────────────────────────────── */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
+      text-align: center;
+      page-break-after: always;
+    }
+    .cover .badge {
+      background: #1e3a5f;
+      color: #fff;
+      font-size: 10pt;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 22px;
+      border-radius: 3px;
+      margin-bottom: 32px;
+    }
+    .cover h1 {
+      font-size: 32pt;
+      font-weight: 800;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+    }
+    .cover .subtitle {
+      font-size: 15pt;
+      color: #4a6fa5;
+      margin-bottom: 48px;
+    }
+    .cover .meta-table {
+      border-collapse: collapse;
+      width: 420px;
+      margin: 0 auto;
+      font-size: 10.5pt;
+    }
+    .cover .meta-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .cover .meta-table td:first-child { font-weight: 600; color: #555; width: 140px; }
+
+    /* ── Abschnitte ────────────────────────────────────────────────────── */
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-top: 36px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #1e3a5f;
+    }
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: #2d5490;
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+    p { margin-bottom: 10px; }
+
+    /* ── Tabellen ──────────────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px 0;
+      font-size: 10.5pt;
+    }
+    th {
+      background: #1e3a5f;
+      color: #fff;
+      text-align: left;
+      padding: 7px 10px;
+      font-weight: 600;
+    }
+    td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f4f7fc; }
+
+    /* ── Code / Monospace ──────────────────────────────────────────────── */
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9.5pt;
+      background: #f0f4f8;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    pre {
+      background: #f0f4f8;
+      border-left: 4px solid #1e3a5f;
+      padding: 12px 16px;
+      font-size: 9pt;
+      font-family: Consolas, "Courier New", monospace;
+      overflow-x: auto;
+      margin: 10px 0 16px 0;
+      line-height: 1.5;
+    }
+
+    /* ── UML-Box ───────────────────────────────────────────────────────── */
+    .uml-box {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin: 10px 0 18px 0;
+      overflow: hidden;
+      font-family: Consolas, monospace;
+      font-size: 9pt;
+      line-height: 1.5;
+    }
+    .uml-title {
+      background: #1e3a5f;
+      color: #fff;
+      padding: 4px 12px;
+      font-weight: bold;
+      font-size: 9.5pt;
+      letter-spacing: 0.5px;
+    }
+    .uml-section {
+      border-top: 1px solid #ccc;
+      padding: 6px 12px;
+    }
+    .uml-attr  { color: #1a4a8a; }
+    .uml-method { color: #267326; }
+
+    /* ── Highlights / Badges ───────────────────────────────────────────── */
+    .check { color: #267326; font-weight: 700; }
+    .tag {
+      display: inline-block;
+      background: #e8f0fc;
+      color: #1e3a5f;
+      border: 1px solid #b0c4e8;
+      border-radius: 3px;
+      padding: 1px 7px;
+      font-size: 9pt;
+      margin: 1px 2px;
+    }
+
+    /* ── Seitenumbrüche ────────────────────────────────────────────────── */
+    .page-break { page-break-before: always; }
+
+    @media print {
+      body { padding: 0; max-width: 100%; }
+      .cover { min-height: 85vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     DECKBLATT
+══════════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="badge">Projektdokumentation</div>
+  <h1>Memory</h1>
+  <div class="subtitle">JavaFX-Spiel mit MVC-Architektur</div>
+
+  <table class="meta-table">
+    <tr><td>Autor</td><td>Stefan Malesevic</td></tr>
+    <tr><td>E-Mail</td><td>malesevicstefan2004@gmail.com</td></tr>
+    <tr><td>Datum</td><td>15. Juli 2026</td></tr>
+    <tr><td>Technologien</td><td>Java 21 · JavaFX 23 · Lombok · Maven</td></tr>
+    <tr><td>Entwurfsmuster</td><td>MVC · Observer</td></tr>
+    <tr><td>Version</td><td>1.0</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     1. AUFGABENBESCHREIBUNG
+══════════════════════════════════════════════════════════════════════ -->
+<h2>1. Aufgabenbeschreibung</h2>
+
+<p>
+  Im Rahmen dieser Aufgabe war ein klassisches Memory-Kartenspiel als interaktive
+  JavaFX-Desktopanwendung zu implementieren. Das Spiel soll vollständig nach dem
+  <strong>MVC-Entwurfsmuster</strong> (Model–View–Controller) strukturiert sein und das
+  <strong>Observer-Pattern</strong> für die Kommunikation zwischen Modell und View nutzen.
+</p>
+
+<h3>Anforderungen im Überblick</h3>
+<table>
+  <tr><th>Kriterium</th><th>Anforderung</th><th>Status</th></tr>
+  <tr><td>Architektur</td><td>MVC-Trennung (Model / View / Controller)</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Entwurfsmuster</td><td>Observer-Pattern (Model ↔ Controller)</td><td><span class="check">✔</span></td></tr>
+  <tr><td>GUI-Technologie</td><td>JavaFX mit FXML-Trennung</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Spielmodi</td><td>1-Spieler und 2-Spieler</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Boardgrößen</td><td>4×4, 4×6, 6×6</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Themen</td><td>Mindestens 3 Symbolthemen</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Build-Tool</td><td>Maven</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Dokumentation</td><td>JavaDoc für alle Klassen und Methoden</td><td><span class="check">✔</span></td></tr>
+  <tr><td>Lombok</td><td>Verwendung von Lombok-Annotationen</td><td><span class="check">✔</span></td></tr>
+</table>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     2. PROJEKTSTRUKTUR
+══════════════════════════════════════════════════════════════════════ -->
+<h2>2. Projektstruktur</h2>
+
+<pre>
+memory/
+├── pom.xml
+└── src/
+    └── main/
+        ├── java/
+        │   └── memory/
+        │       ├── MainClass.java          ← Einstiegspunkt
+        │       ├── MemoryApp.java          ← JavaFX Application
+        │       ├── controller/
+        │       │   ├── MenuController.java ← Startmenü-Controller
+        │       │   └── GameController.java ← Spiel-Controller
+        │       └── model/
+        │           ├── Card.java           ← Spielkarte
+        │           ├── CardState.java      ← Enum: Kartenzustand
+        │           ├── GameConfig.java     ← Spielkonfiguration
+        │           ├── GameModel.java      ← Spiellogik (Model)
+        │           ├── GameModelListener.java ← Observer-Interface
+        │           ├── Player.java         ← Spieler
+        │           └── Theme.java          ← Enum: Symbolthemen
+        └── resources/
+            └── memory/
+                ├── MenuView.fxml           ← Startmenü-Layout
+                ├── GameView.fxml           ← Spielfeld-Layout
+                └── style.css              ← Stylesheet
+</pre>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     3. ARCHITEKTUR
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h2>3. Architektur</h2>
+
+<h3>3.1 MVC-Entwurfsmuster</h3>
+<p>
+  Die Anwendung ist strikt nach dem MVC-Muster aufgebaut. Jede Schicht hat eine klar
+  definierte Verantwortung und kennt die darunterliegenden Schichten nicht:
+</p>
+
+<table>
+  <tr><th>Schicht</th><th>Klassen / Dateien</th><th>Verantwortung</th></tr>
+  <tr>
+    <td><strong>Model</strong></td>
+    <td><code>GameModel</code>, <code>Card</code>, <code>Player</code>,<br>
+        <code>GameConfig</code>, <code>Theme</code>, <code>CardState</code></td>
+    <td>Spiellogik, Zustand der Karten und Spieler; kennt die View nicht</td>
+  </tr>
+  <tr>
+    <td><strong>View</strong></td>
+    <td><code>MenuView.fxml</code>, <code>GameView.fxml</code>, <code>style.css</code></td>
+    <td>Deklarative Darstellung der Benutzeroberfläche, enthält keine Logik</td>
+  </tr>
+  <tr>
+    <td><strong>Controller</strong></td>
+    <td><code>MenuController</code>, <code>GameController</code></td>
+    <td>Verbindet View und Model; reagiert auf Benutzeraktionen und Update-Events</td>
+  </tr>
+</table>
+
+<h3>3.2 Observer-Pattern</h3>
+<p>
+  Das Model kommuniziert mit dem Controller ausschließlich über das
+  <code>GameModelListener</code>-Interface. Der <code>GameController</code> registriert
+  sich beim Start mit <code>model.addListener(this)</code> als Observer und wird bei
+  jedem relevanten Spielereignis benachrichtigt:
+</p>
+
+<table>
+  <tr><th>Methode (Interface)</th><th>Auslöser</th></tr>
+  <tr><td><code>onCardFlipped()</code></td><td>Eine Karte wurde umgedreht</td></tr>
+  <tr><td><code>onPairMatched(r1,c1,r2,c2)</code></td><td>Zwei Karten bilden ein Paar</td></tr>
+  <tr><td><code>onPairMismatched(r1,c1,r2,c2)</code></td><td>Zwei Karten passen nicht zusammen</td></tr>
+  <tr><td><code>onCardsHidden()</code></td><td>Nicht passende Karten wurden wieder umgedreht</td></tr>
+  <tr><td><code>onGameOver()</code></td><td>Alle Paare wurden gefunden</td></tr>
+</table>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     4. KLASSENDIAGRAMM
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h2>4. UML-Klassendiagramm</h2>
+
+<p>Vereinfachtes Klassendiagramm (Felder und wichtigste Methoden):</p>
+
+<!-- MainClass -->
+<div class="uml-box">
+  <div class="uml-title">MainClass</div>
+  <div class="uml-section"><span class="uml-method">+ main(args: String[]) : void</span></div>
+</div>
+
+<!-- MemoryApp -->
+<div class="uml-box">
+  <div class="uml-title">MemoryApp   &lt;&lt;extends Application&gt;&gt;</div>
+  <div class="uml-section">
+    <span class="uml-attr">– MENU_WIDTH : int = 520</span><br>
+    <span class="uml-attr">– MENU_HEIGHT : int = 420</span>
+  </div>
+  <div class="uml-section"><span class="uml-method">+ start(primaryStage: Stage) : void</span></div>
+</div>
+
+<!-- GameModelListener -->
+<div class="uml-box">
+  <div class="uml-title">&lt;&lt;interface&gt;&gt; GameModelListener</div>
+  <div class="uml-section">
+    <span class="uml-method">+ onCardFlipped() : void</span><br>
+    <span class="uml-method">+ onPairMatched(row1,col1,row2,col2: int) : void</span><br>
+    <span class="uml-method">+ onPairMismatched(row1,col1,row2,col2: int) : void</span><br>
+    <span class="uml-method">+ onCardsHidden() : void</span><br>
+    <span class="uml-method">+ onGameOver() : void</span>
+  </div>
+</div>
+
+<!-- GameModel -->
+<div class="uml-box">
+  <div class="uml-title">GameModel</div>
+  <div class="uml-section">
+    <span class="uml-attr">– board : Card[][]</span><br>
+    <span class="uml-attr">– players : List&lt;Player&gt;</span><br>
+    <span class="uml-attr">– currentPlayerIndex : int</span><br>
+    <span class="uml-attr">– totalMoves : int</span><br>
+    <span class="uml-attr">– matchedPairs : int</span><br>
+    <span class="uml-attr">– canFlip : boolean</span><br>
+    <span class="uml-attr">– config : GameConfig</span><br>
+    <span class="uml-attr">– listeners : List&lt;GameModelListener&gt;</span>
+  </div>
+  <div class="uml-section">
+    <span class="uml-method">+ GameModel(config: GameConfig)</span><br>
+    <span class="uml-method">+ addListener(listener: GameModelListener) : void</span><br>
+    <span class="uml-method">+ flipCard(row: int, col: int) : void</span><br>
+    <span class="uml-method">+ hideCards() : void</span><br>
+    <span class="uml-method">+ getTotalPairs() : int</span>
+  </div>
+</div>
+
+<!-- Card -->
+<div class="uml-box">
+  <div class="uml-title">Card</div>
+  <div class="uml-section">
+    <span class="uml-attr">– id : int</span><br>
+    <span class="uml-attr">– pairId : int</span><br>
+    <span class="uml-attr">– symbol : String</span><br>
+    <span class="uml-attr">– state : CardState</span>
+  </div>
+  <div class="uml-section">
+    <span class="uml-method">+ Card(id: int, pairId: int, symbol: String)</span><br>
+    <span class="uml-method">+ getState() / setState(state: CardState) : CardState</span>
+  </div>
+</div>
+
+<!-- CardState / Theme / Player / GameConfig inline row -->
+<table>
+  <tr>
+    <td style="width:25%; vertical-align:top; padding:0 6px 0 0;">
+      <div class="uml-box">
+        <div class="uml-title">&lt;&lt;enum&gt;&gt; CardState</div>
+        <div class="uml-section">
+          FACE_DOWN<br>FACE_UP<br>MATCHED
+        </div>
+      </div>
+    </td>
+    <td style="width:25%; vertical-align:top; padding:0 6px;">
+      <div class="uml-box">
+        <div class="uml-title">&lt;&lt;enum&gt;&gt; Theme</div>
+        <div class="uml-section">
+          GEOMETRY<br>CHESS<br>ARROWS
+        </div>
+        <div class="uml-section">
+          <span class="uml-attr">– displayName : String</span><br>
+          <span class="uml-attr">– symbols : String[]</span>
+        </div>
+      </div>
+    </td>
+    <td style="width:25%; vertical-align:top; padding:0 6px;">
+      <div class="uml-box">
+        <div class="uml-title">Player</div>
+        <div class="uml-section">
+          <span class="uml-attr">– name : String</span><br>
+          <span class="uml-attr">– score : int</span>
+        </div>
+        <div class="uml-section">
+          <span class="uml-method">+ addScore() : void</span>
+        </div>
+      </div>
+    </td>
+    <td style="width:25%; vertical-align:top; padding:0 0 0 6px;">
+      <div class="uml-box">
+        <div class="uml-title">GameConfig</div>
+        <div class="uml-section">
+          <span class="uml-attr">– playerCount : int</span><br>
+          <span class="uml-attr">– rows : int</span><br>
+          <span class="uml-attr">– cols : int</span><br>
+          <span class="uml-attr">– theme : Theme</span><br>
+          <span class="uml-attr">– player1Name : String</span><br>
+          <span class="uml-attr">– player2Name : String</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<!-- Controller classes -->
+<div class="uml-box">
+  <div class="uml-title">GameController   &lt;&lt;implements GameModelListener&gt;&gt;</div>
+  <div class="uml-section">
+    <span class="uml-attr">– boardGrid : GridPane</span><br>
+    <span class="uml-attr">– model : GameModel</span><br>
+    <span class="uml-attr">– cardButtons : Button[][]</span><br>
+    <span class="uml-attr">– FLIP_BACK_DELAY_MS : int = 1500</span>
+  </div>
+  <div class="uml-section">
+    <span class="uml-method">+ initGame(config: GameConfig) : void</span><br>
+    <span class="uml-method">– buildBoard() : void</span><br>
+    <span class="uml-method">– refreshBoard() : void</span><br>
+    <span class="uml-method">– updateStatus() : void</span><br>
+    <span class="uml-method">+ onCardFlipped() / onPairMatched() / ... : void</span><br>
+    <span class="uml-method">+ newGame(event: ActionEvent) : void</span>
+  </div>
+</div>
+
+<div class="uml-box">
+  <div class="uml-title">MenuController</div>
+  <div class="uml-section">
+    <span class="uml-attr">– playerCountCombo : ComboBox&lt;String&gt;</span><br>
+    <span class="uml-attr">– boardSizeCombo : ComboBox&lt;String&gt;</span><br>
+    <span class="uml-attr">– themeCombo : ComboBox&lt;Theme&gt;</span>
+  </div>
+  <div class="uml-section">
+    <span class="uml-method">+ initialize() : void</span><br>
+    <span class="uml-method">+ startGame(event: ActionEvent) : void</span><br>
+    <span class="uml-method">– buildConfig() : GameConfig</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     5. SPIELLOGIK
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h2>5. Spiellogik</h2>
+
+<h3>5.1 Spielablauf</h3>
+<p>
+  Jede Runde besteht aus dem Aufdecken von genau zwei Karten. Das Modell verwaltet
+  den Zustand intern über die Felder <code>flippedCount</code>, <code>firstRow/Col</code>
+  und <code>secondRow/Col</code>:
+</p>
+
+<pre>
+Klick auf Karte
+  └─► flipCard(row, col)
+        ├─ flippedCount == 0 → erste Karte merken, onCardFlipped()
+        └─ flippedCount == 1 → zweite Karte, totalMoves++, evaluatePair()
+               ├─ pairId gleich → MATCHED, score++, onPairMatched()
+               │       └─ alle Paare? → onGameOver()
+               └─ pairId verschieden → onPairMismatched()
+                       └─ (nach 1500 ms) hideCards() → Spielerwechsel, onCardsHidden()
+</pre>
+
+<h3>5.2 Spielerwechsel</h3>
+<p>
+  Der Spielerwechsel erfolgt <strong>nur bei einem Mismatch</strong> (in
+  <code>hideCards()</code> durch <code>currentPlayerIndex = (currentPlayerIndex + 1) % players.size()</code>).
+  Bei einem Match bleibt der aktive Spieler am Zug – ein Merkmal vieler klassischer
+  Memory-Varianten.
+</p>
+
+<h3>5.3 Spiel-Ende</h3>
+<p>
+  Sobald <code>matchedPairs == (rows × cols) / 2</code>, wird <code>onGameOver()</code>
+  ausgelöst. Der <code>GameController</code> zeigt einen <code>Alert</code>-Dialog mit:
+</p>
+<ul style="margin: 8px 0 12px 24px;">
+  <li>1-Spieler: Glückwunsch-Meldung mit Anzahl der Züge</li>
+  <li>2-Spieler: Gewinner oder Unentschieden mit Punktestand (z.B. 6 : 2)</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     6. KONFIGURATION
+══════════════════════════════════════════════════════════════════════ -->
+<h2>6. Konfiguration</h2>
+
+<h3>6.1 Spielmodi</h3>
+<table>
+  <tr><th>Modus</th><th>Beschreibung</th></tr>
+  <tr><td>1 Spieler</td><td>Einzelspieler; Ziel: alle Paare mit möglichst wenigen Zügen finden</td></tr>
+  <tr><td>2 Spieler</td><td>Abwechselnd; wer mehr Paare findet, gewinnt; bei Mismatch Spielerwechsel</td></tr>
+</table>
+
+<h3>6.2 Boardgrößen</h3>
+<table>
+  <tr><th>Größe</th><th>Paare</th><th>Karten gesamt</th></tr>
+  <tr><td>4 × 4</td><td>8</td><td>16</td></tr>
+  <tr><td>4 × 6</td><td>12</td><td>24</td></tr>
+  <tr><td>6 × 6</td><td>18</td><td>36</td></tr>
+</table>
+
+<h3>6.3 Symbolthemen</h3>
+<table>
+  <tr><th>Theme</th><th>Beispiel-Symbole</th><th>Anzahl</th></tr>
+  <tr><td>Geometry</td><td>■ □ ▲ ▼ ◆ ◇ ● ○ …</td><td>18</td></tr>
+  <tr><td>Chess</td><td>♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♠ ♥ …</td><td>18</td></tr>
+  <tr><td>Arrows</td><td>← → ↑ ↓ ↔ ↕ ∞ ≠ ± × …</td><td>18</td></tr>
+</table>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     7. TECHNOLOGIEN UND WERKZEUGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h2>7. Technologien und Werkzeuge</h2>
+
+<table>
+  <tr><th>Technologie</th><th>Version</th><th>Verwendungszweck</th></tr>
+  <tr><td>Java</td><td>21 (LTS)</td><td>Programmiersprache</td></tr>
+  <tr><td>JavaFX</td><td>23.0.1</td><td>GUI-Framework (Controls + FXML)</td></tr>
+  <tr><td>Lombok</td><td>1.18.38</td><td><code>@Getter</code>, <code>@Setter</code> – Boilerplate-Reduktion</td></tr>
+  <tr><td>Apache Maven</td><td>3.9.x</td><td>Build, Dependency-Management, JavaDoc-Erzeugung</td></tr>
+  <tr><td>JavaDoc</td><td>JDK 21</td><td>API-Dokumentation (generiert in <code>target/reports/apidocs/</code>)</td></tr>
+</table>
+
+<h3>Lombok-Einsatz</h3>
+<p>
+  Lombok wird in allen Modellklassen eingesetzt, um Getter und Setter automatisch
+  zu generieren. Dies reduziert den Code erheblich und verbessert die Lesbarkeit:
+</p>
+<pre>
+@Getter          // generiert get-Methoden für alle Felder
+@Setter          // generiert set-Methoden für alle Felder
+public class GameConfig { ... }
+
+@Getter          // nur Getter (unveränderliche Objekte)
+public class GameModel { ... }
+</pre>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     8. PROGRAMM STARTEN
+══════════════════════════════════════════════════════════════════════ -->
+<h2>8. Programm starten</h2>
+
+<h3>Voraussetzungen</h3>
+<ul style="margin: 8px 0 12px 24px; line-height: 2;">
+  <li>Java 21 (JDK) installiert und <code>JAVA_HOME</code> gesetzt</li>
+  <li>Maven 3.6+ im PATH (oder Maven Wrapper <code>mvnw</code> verwenden)</li>
+  <li>Internetverbindung beim ersten Build (Abhängigkeiten werden heruntergeladen)</li>
+</ul>
+
+<h3>Starten mit Maven</h3>
+<pre>cd memory
+mvn javafx:run</pre>
+
+<h3>JAR ausführen</h3>
+<pre>java -jar memory-1.0-SNAPSHOT.jar</pre>
+
+<h3>JavaDoc öffnen</h3>
+<pre>target/reports/apidocs/index.html   ← im Browser öffnen</pre>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     9. JAVADOC
+══════════════════════════════════════════════════════════════════════ -->
+<h2>9. JavaDoc-Dokumentation</h2>
+
+<p>
+  Alle Klassen, Felder und öffentliche Methoden sind vollständig mit JavaDoc
+  dokumentiert. Die Dokumentation wurde mit <code>mvn javadoc:javadoc</code> erzeugt
+  und liegt im Verzeichnis <code>target/reports/apidocs/</code>.
+</p>
+
+<table>
+  <tr><th>Klasse / Interface</th><th>Paket</th><th>Beschreibung</th></tr>
+  <tr><td><code>MainClass</code></td><td>memory</td><td>Einstiegspunkt der Anwendung</td></tr>
+  <tr><td><code>MemoryApp</code></td><td>memory</td><td>JavaFX-Application, lädt das Startmenü</td></tr>
+  <tr><td><code>MenuController</code></td><td>memory.controller</td><td>Controller für das Startmenü</td></tr>
+  <tr><td><code>GameController</code></td><td>memory.controller</td><td>Controller für das Spielfeld, implementiert GameModelListener</td></tr>
+  <tr><td><code>GameModel</code></td><td>memory.model</td><td>Gesamte Spiellogik und Zustandsverwaltung</td></tr>
+  <tr><td><code>GameModelListener</code></td><td>memory.model</td><td>Observer-Interface für Spielereignisse</td></tr>
+  <tr><td><code>GameConfig</code></td><td>memory.model</td><td>Konfigurationsobjekt (Spieler, Größe, Theme)</td></tr>
+  <tr><td><code>Card</code></td><td>memory.model</td><td>Spielkarte mit ID, Paar-ID, Symbol und Zustand</td></tr>
+  <tr><td><code>CardState</code></td><td>memory.model</td><td>Enum: FACE_DOWN / FACE_UP / MATCHED</td></tr>
+  <tr><td><code>Player</code></td><td>memory.model</td><td>Spieler mit Name und Punktestand</td></tr>
+  <tr><td><code>Theme</code></td><td>memory.model</td><td>Enum: GEOMETRY / CHESS / ARROWS mit je 18 Symbolen</td></tr>
+</table>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     10. FAZIT
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h2>10. Fazit</h2>
+
+<p>
+  Das Memory-Spiel wurde vollständig nach den gestellten Anforderungen implementiert.
+  Die MVC-Architektur sorgt für eine klare Trennung der Verantwortlichkeiten:
+  das Modell enthält ausschließlich Spiellogik ohne jegliche Abhängigkeit zur View,
+  die FXML-Views sind rein deklarativ, und die Controller verbinden beide Schichten
+  über das Observer-Interface <code>GameModelListener</code>.
+</p>
+<p>
+  Durch den Einsatz von Lombok wird Boilerplate-Code in den Modellklassen minimiert.
+  Maven übernimmt Build, Dependency-Management und die Erzeugung der JavaDoc-API-Dokumentation.
+  Das Spiel unterstützt drei Boardgrößen, drei Symbolthemen sowie Einzel- und
+  Zweispieler-Modus mit vollständiger Punkteauswertung und Endbildschirm.
+</p>
+
+<br><br>
+<hr style="border:none; border-top:1px solid #ccc; margin: 20px 0;">
+<p style="text-align:center; font-size:9pt; color:#888;">
+  Memory · JavaFX-Projekt · Stefan Malesevic · 2026
+</p>
+
+</body>
+</html>
