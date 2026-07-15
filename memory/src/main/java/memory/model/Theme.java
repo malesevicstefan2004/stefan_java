@@ -53,12 +53,20 @@ public enum Theme {
       this.symbols = symbols;
    }
 
-   /** Returns the display name of this theme. */
+   /**
+    * Returns the display name of this theme.
+    *
+    * @return the human-readable name shown in the start menu
+    */
    public String getDisplayName() {
       return displayName;
    }
 
-   /** Returns the symbol array of this theme. */
+   /**
+    * Returns the symbol array of this theme.
+    *
+    * @return array of Unicode symbols used as card faces
+    */
    public String[] getSymbols() {
       return symbols;
    }
