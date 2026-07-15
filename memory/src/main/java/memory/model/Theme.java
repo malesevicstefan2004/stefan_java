@@ -10,7 +10,7 @@ package memory.model;
 public enum Theme {
 
    /** Geometric shapes from Unicode block U+25A0–U+25FF. */
-   TIERE("Geometry ■", new String[]{
+   GEOMETRY("Geometry ■", new String[]{
          "■", "□", "▲", "▼",
          "◆", "◇", "●", "○",
          "◐", "◑", "▶", "◀",
@@ -19,7 +19,7 @@ public enum Theme {
    }),
 
    /** Chess pieces, playing card suits, and musical notes. */
-   FRUECHTE("Chess ♔", new String[]{
+   CHESS("Chess ♔", new String[]{
          "♔", "♕", "♖", "♗",
          "♘", "♙", "♚", "♛",
          "♜", "♝", "♞", "♟",
@@ -28,7 +28,7 @@ public enum Theme {
    }),
 
    /** Arrows and mathematical operators. */
-   KARTEN("Arrows ←", new String[]{
+   ARROWS("Arrows ←", new String[]{
          "←", "→", "↑", "↓",
          "↔", "↕", "↖", "↗",
          "↘", "↙", "∞", "≠",

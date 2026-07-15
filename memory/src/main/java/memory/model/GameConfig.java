@@ -31,12 +31,12 @@ public class GameConfig {
    /** Display name of Player 2. */
    private String player2Name;
 
-   /** Creates a configuration with default values: 1 player, 4×4 board, theme TIERE. */
+   /** Creates a configuration with default values: 1 player, 4×4 board, theme GEOMETRY. */
    public GameConfig() {
       this.playerCount = 1;
       this.rows = 4;
       this.cols = 4;
-      this.theme = Theme.TIERE;
+      this.theme = Theme.GEOMETRY;
       this.player1Name = "Player 1";
       this.player2Name = "Player 2";
    }
