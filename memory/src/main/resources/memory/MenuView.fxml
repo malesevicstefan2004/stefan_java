@@ -33,35 +33,35 @@
       </columnConstraints>
 
       <!-- Row 0: Player count -->
-      <Label text="Spieleranzahl:" styleClass="menu-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+      <Label text="Players:" styleClass="menu-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
       <ComboBox fx:id="playerCountCombo" prefWidth="200"
                 GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
       <!-- Row 1: Board size -->
-      <Label text="Spielfeldgröße:" styleClass="menu-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+      <Label text="Board size:" styleClass="menu-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
       <ComboBox fx:id="boardSizeCombo" prefWidth="200"
                 GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
       <!-- Row 2: Theme -->
-      <Label text="Motiv:" styleClass="menu-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+      <Label text="Theme:" styleClass="menu-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
       <ComboBox fx:id="themeCombo" prefWidth="200"
                 GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
       <!-- Row 3: Player 1 name -->
-      <Label text="Name Spieler 1:" styleClass="menu-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-      <TextField fx:id="player1NameField" promptText="Spieler 1" prefWidth="200"
+      <Label text="Player 1 name:" styleClass="menu-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+      <TextField fx:id="player1NameField" promptText="Player 1" prefWidth="200"
                  GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
       <!-- Row 4: Player 2 name (hidden in single-player mode) -->
-      <Label fx:id="player2NameLabel" text="Name Spieler 2:" styleClass="menu-label"
+      <Label fx:id="player2NameLabel" text="Player 2 name:" styleClass="menu-label"
              GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-      <TextField fx:id="player2NameField" promptText="Spieler 2" prefWidth="200"
+      <TextField fx:id="player2NameField" promptText="Player 2" prefWidth="200"
                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
    </GridPane>
 
    <Separator/>
 
    <!-- Start button -->
-   <Button text="Spiel starten" onAction="#startGame" styleClass="menu-button"/>
+   <Button text="Start Game" onAction="#startGame" styleClass="menu-button"/>
 
 </VBox>
