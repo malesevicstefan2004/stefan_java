@@ -98,8 +98,8 @@ public class GameController implements GameModelListener {
     * @return card size in pixels
     */
    private int computeCardSize(int rows, int cols) {
-      if (rows == 6 || cols == 6) return 75;
-      if (cols == 6) return 80;
+      if (rows == 6 && cols == 6) return 75;
+      if (rows == 6 || cols == 6) return 80;
       return 90;
    }
 
