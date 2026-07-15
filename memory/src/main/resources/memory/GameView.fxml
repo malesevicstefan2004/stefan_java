@@ -20,7 +20,7 @@
          </padding>
 
          <!-- Active player -->
-         <Label fx:id="activePlayerLabel" text="Am Zug: –" styleClass="status-label" prefWidth="200"/>
+         <Label fx:id="activePlayerLabel" text="Turn: -" styleClass="status-label" prefWidth="200"/>
 
          <Region HBox.hgrow="ALWAYS"/>
 
@@ -36,7 +36,7 @@
          <Region HBox.hgrow="ALWAYS"/>
 
          <!-- Total moves -->
-         <Label fx:id="movesLabel" text="Züge: 0" styleClass="status-label" prefWidth="80"/>
+         <Label fx:id="movesLabel" text="Moves: 0" styleClass="status-label" prefWidth="80"/>
       </HBox>
    </top>
 
@@ -58,7 +58,7 @@
          <padding>
             <Insets top="10" right="0" bottom="14" left="0"/>
          </padding>
-         <Button text="Neues Spiel" onAction="#newGame" styleClass="new-game-button"/>
+         <Button text="New Game" onAction="#newGame" styleClass="new-game-button"/>
       </HBox>
    </bottom>
 
